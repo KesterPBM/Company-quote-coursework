@@ -1,24 +1,21 @@
 import React, { Component } from 'react';
 //importing the picture as "profilepic".
 import { Redirect } from 'react-router-dom';
-
+import './company.css';
 import {useQuery} from 'react-query'
 import axios from 'axios'
-import
-{
-BrowserRouter as Router,
-Route,
-} from "react-router-dom";
+
 
 class MyToDoList extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {nworkers:0,eworkers:0,exworkers:0, items: [], displayquote: [], electricty: false, text: ''};
+    this.state = {nworkers:0,eworkers:0,exworkers:0, quotes: [], electricty: 0, comfort: 0,landrent: 0, text: ''};
     this.valChange = this.valChange.bind(this);
     this.valSubmit = this.valSubmit.bind(this);
     this.storeItems = this.storeItems.bind(this);
     this.getItems = this.getItems.bind(this);
+    this.deleteItems = this.deleteItems.bind(this);
     let nworkers1 = 0;
     this.nworkers = nworkers1;
     
@@ -29,7 +26,7 @@ class MyToDoList extends React.Component {
     if (!authUser) {
         console.log("Not logged in!")
         // not logged in so redirect to login page with the return url
-        return <Redirect to="/education" />
+        return <Redirect to="/Login" />
         
     }
     let testeworker = "";
@@ -48,33 +45,17 @@ class MyToDoList extends React.Component {
          onChange={this.valChange}
          value= {this.state.text}
         />
+        <br></br>
         <button onClick={this.addNworker}>
           Add Novice Worker 
         </button>
-        
-       
         <button onClick={this.addEworker}>
           Add Experienced Worker 
         </button>
         <button onClick={this.addExworker}>
           Add Expert Worker 
         </button>
-
-        <input
-         id="new-todo"
-         onChange={this.valChange}
-         value={this.state.text}
-        />
-       
-        <button>
-          Estimate Quote{this.state.items.length +1}
-        </button>
-        <button onClick={this.storeItems}>
-          Save quote to database
-        </button>
-        <button onClick={this.getItems}>
-          Retrieve stored quotes
-        </button>
+        
         <ul>
           <li>
             Number of Novice Workers : {this.state.nworkers}
@@ -99,23 +80,42 @@ class MyToDoList extends React.Component {
           </li>
           <li>
             Comfort :  
-            <button onClick={this.getItems}>
+            <button onClick={this.addComfort}>
           Add
         </button>
           </li>
           <li>
             Land Rent : 
-            <button onClick={this.getItems}>
+            <button onClick={this.addLandRent}>
           Add
         </button>
           </li>
         </ul>
+        <div class = "container">
+          <div class = "center">
+          <button>
+          Estimate Quote
+        </button>
+          </div>
+        </div>
+      <br></br>
+      <div>The cost generated : </div>
+        <TodoList quotes={this.state.quotes} />
+        <br></br>
+        <button onClick={this.storeItems}>
+          Save quote to database
+        </button>
+        <button onClick={this.getItems}>
+          Retrieve stored quotes
+        </button>
+        <button onClick={this.deleteItems}>
+          Delete quotes from database
+        </button>
         <br>
         </br>
-        <div>The cost generated : </div>
-        <TodoList items={this.state.items} />
+        
 
-<div>Test</div>
+
 
 
       </form>
@@ -140,14 +140,12 @@ class MyToDoList extends React.Component {
     }
     
     
-    const calculation = {text: Math.round((((Number(this.state.text)) * (this.state.nworkers * 10)) + ((Number(this.state.text)) * (this.state.eworkers * 20)) + ((Number(this.state.text)) * (this.state.exworkers * 30)))* Math.random())}
+    const calculation = {text: (Math.round((((Number(this.state.text)) * (this.state.nworkers * 10)) + ((Number(this.state.text)) * (this.state.eworkers * 20)) + ((Number(this.state.text)) * (this.state.exworkers * 30)))* Math.random())+ (this.state.electricty * 60)+ (this.state.comfort * 300)+ (this.state.landrent * 1000))}
     
     
 
     this.setState(state => ({
-      items: state.displayquote = [],
-      items: state.displayquote.concat(calculation),
-      items: state.items.concat(calculation),
+      quotes: state.quotes.concat(calculation),
       text: '',
       
       
@@ -172,7 +170,16 @@ class MyToDoList extends React.Component {
  }
 
  addElectricty = () => {
-  this.setState({ electicty: true });
+  this.setState({ electricty: this.state.electricty + 1 });
+
+ }
+
+ addComfort = () => {
+  this.setState({ comfort: this.state.comfort + 1 });
+
+ }
+ addLandRent = () => {
+  this.setState({ landrent: this.state.landrent + 1 });
 
  }
 
@@ -188,12 +195,12 @@ class MyToDoList extends React.Component {
  }
  storeItems(e) {
   e.preventDefault();
-  console.log("Storing items")
+  console.log("Storing quotes")
   var state = this.state;
   console.log(state)
   // First, clear the old list in the database:
   axios.delete("http://127.0.0.1:8000/api/todolist", { crossdomain: true }).then ((response) => {
-    state.items.forEach( element =>
+    state.quotes.forEach( element =>
     {
       var requestURI = "http://127.0.0.1:8000/api/todolist?todoNumber=" + element.id + "&todoText=" + element.text
       console.log(requestURI)
@@ -204,23 +211,21 @@ class MyToDoList extends React.Component {
   }
   deleteItems(e) {
     e.preventDefault();
-    console.log("deleting items")
+    console.log("deleting quotes")
     var state = this.state;
     console.log(state)
     // First, clear the old list in the database:
-    axios.delete("http://127.0.0.1:8000/api/todolist", { crossdomain: true }).then ((response) => {
-
-    })
+    axios.delete("http://127.0.0.1:8000/api/todolist", { crossdomain: true })
   }
 
   getItems(e) {
-    console.log("Getting items")
+    console.log("Getting quotes")
     e.preventDefault();
     var todos = "woop"
     var state = this.state;
-    state.items = [];
+    state.quotes = [];
     state.text = ''
-    console.log(state.items)
+    console.log(state.quotes)
     axios.get('http://127.0.0.1:8000/api/todolist').then((response) => {
       todos = response.data;
       console.log(todos)
@@ -230,10 +235,10 @@ class MyToDoList extends React.Component {
             text: element.todoText,
             id: Date.now()
           };
-          state.items = state.items.concat(newItem);
+          state.quotes = state.quotes.concat(newItem);
           state.text = '';
         })
-      console.log(state.items)
+      console.log(state.quotes)
       this.setState(state)
 
       });
@@ -244,7 +249,7 @@ class TodoList extends React.Component {
   render() {
     return (
       <ul>
-        {this.props.items.map((item, index) => (
+        {this.props.quotes.map((item, index) => (
           <li key={index}>{item.text}</li>
         ))}
       </ul>

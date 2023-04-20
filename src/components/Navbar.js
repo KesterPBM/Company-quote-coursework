@@ -14,11 +14,11 @@ class Navbar extends Component {
 
   render() {
     const authUser = sessionStorage.getItem('auth')
-    let loginDisplay = <a href={'/education'}>Login</a>
-    let loginPath = "/education"
+    let loginDisplay = <a href={'/Login'}>Login</a>
+    let loginPath = "/Login"
     if (authUser) {
-      loginDisplay = <a href={'/logoff'}>Logoff</a>
-      loginPath = "/testspace"
+      loginDisplay = <a href={'/Logoff'}>Logoff</a>
+      loginPath = "/Logoff"
     }
 
     let signupDisplay = <a>Sign Up</a>
@@ -30,11 +30,8 @@ class Navbar extends Component {
           <nav>
           <ul>
           <Navitem item="Quote Generator" tolink="/"  activec={this.activeitem}></Navitem>
-          <Navitem item= {signupDisplay} tolink={loginPath}  activec={this.activeitem}></Navitem>
+          <Navitem item= {signupDisplay} tolink="/Signup"  activec={this.activeitem}></Navitem>
           <Navitem item={loginDisplay} tolink={loginPath}  activec={this.activeitem}></Navitem>
-          <Navitem item="Saved Quotes" tolink="/skills"  activec={this.activeitem}></Navitem>
-          <Navitem item="Contact" tolink="/contact"  activec={this.activeitem}></Navitem>
-          
           </ul>
           </nav>
           )

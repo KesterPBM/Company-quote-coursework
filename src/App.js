@@ -6,12 +6,11 @@ BrowserRouter as Router,
 Route,
 } from "react-router-dom";
 import Navbar from './components/Navbar';
-import Home from './contents/Home';
-import About from './contents/About';
-import Education from './contents/Education';
-import Skills from './contents/Skills';
-import Contact from './contents/Contact';
-import TestSpace from './contents/Testspace';
+import Quote from './contents/Quote';
+import Signup from './contents/Signup';
+import Login from './contents/Login';
+import Logoff from './contents/logoff';
+import PrivateRoute from "./contents/privateroute.js"
 
 function App() {
   return (
@@ -19,22 +18,16 @@ function App() {
       <div className="App">
       <Navbar />
       <Route exact path="/">
-        <Home />
+        <Quote />
       </Route>
-      <Route exact path="/about">
-        <About />
+      <Route exact path="/Signup">
+        <Signup />
       </Route>
-      <Route exact path="/education">
-        <Education />
+      <Route exact path="/Login">
+        <Login />
       </Route>
-      <Route exact path="/skills">
-        <Skills />
-      </Route>
-      <Route exact path="/contact">
-        <Contact />
-      </Route>
-      <Route exact path="/testspace">
-        <TestSpace />
+      <Route exact path="/Logoff">
+        <Logoff />
       </Route>
       </div>
     </Router>
