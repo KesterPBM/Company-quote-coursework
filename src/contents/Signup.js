@@ -1,7 +1,10 @@
+//Imports
 import React, {useState} from 'react'
 import axios from 'axios'
 import { Redirect } from 'react-router-dom';
 import './company.css';
+
+//Signup function
 export default function Signup() {
   const [values, setValues] = useState({
     name: '',
@@ -15,6 +18,7 @@ export default function Signup() {
     setValues({ ...values, [name]: event.target.value })
   }
 
+  //Gets the signup and posts it to database
   const signup = (e) =>  {
     e.preventDefault();
     console.log("Signing up")
@@ -22,11 +26,11 @@ export default function Signup() {
     var requestURI = "http://127.0.0.1:8000/api/users"
     console.log(requestURI)
     axios.post(requestURI, data)
-    return <Redirect to="/Login" />
+    
   }
   
 
-
+  // HTML
   return (
     
     <div id="signup">

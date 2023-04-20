@@ -1,3 +1,4 @@
+//Private route for non logged in pages
 import { Redirect } from 'react-router-dom';
 
 export default function PrivateRoute({ children }) {

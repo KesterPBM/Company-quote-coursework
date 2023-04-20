@@ -1,3 +1,4 @@
+//Log out
 export default function Logoff() {
   sessionStorage.removeItem("auth")
   console.log("Removing Authentication")

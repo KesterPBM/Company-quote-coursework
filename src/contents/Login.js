@@ -1,8 +1,10 @@
+//Imports
 import React, {useState} from 'react'
 import axios from 'axios'
 import './company.css';
 
-export default function Signup() {
+// Login function
+export default function Login() {
   const [values, setValues] = useState({
     name: '',
     password: '',
@@ -15,9 +17,10 @@ export default function Signup() {
     setValues({ ...values, [name]: event.target.value })
   }
 
-  const signup = (e) =>  {
+  //Sets up the login function to log the user in, uses authentication to lock certain aspects of the website out
+  const login = (e) =>  {
     e.preventDefault();
-    console.log("Signing up")
+    console.log("Logging up")
     let data = {"name": values.name, "email": values.email, "password" : values.password}
     var requestURI = "http://127.0.0.1:8000/api/users"
     console.log(requestURI)
@@ -27,20 +30,21 @@ export default function Signup() {
       console.log("JWT set up successfully")
       setTimeout(function(){
         window.location.reload();
-     }, 5000);
+     }, 3000);
     })
     .catch(err => {
       console.log(err)
     });
    
   }
-  
+  // Authentication for user
   const authUser = sessionStorage.getItem('auth')
-    
+    //If user is authenticated, change the text
   let loginDisplay = "Log in now" 
   if (authUser) {
     loginDisplay = "You're already logged in"
   }
+  //HTML//
   return (
     
     <div id="signup">
@@ -58,7 +62,7 @@ export default function Signup() {
           <input type="text" name="password" onChange={handleChange('password')} />
         </label>
         <br></br>
-        <input type="submit" value= {loginDisplay} onClick={signup} />
+        <input type="submit" value= {loginDisplay} onClick={login} />
       </form>
     </div>
   );
