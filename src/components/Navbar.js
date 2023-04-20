@@ -8,23 +8,41 @@ class Navbar extends Component {
     this.state={
       'NavItemActive':''
     }
+    
+
   };
 
   render() {
+    const authUser = sessionStorage.getItem('auth')
+    let loginDisplay = <a href={'/education'}>Login</a>
+    let loginPath = "/education"
+    if (authUser) {
+      loginDisplay = <a href={'/logoff'}>Logoff</a>
+      loginPath = "/testspace"
+    }
+
+    let signupDisplay = <a>Sign Up</a>
+
+    if (authUser) {
+      signupDisplay = <a></a>
+    } 
       return (
           <nav>
           <ul>
-          <Navitem item="Home" tolink="/"  activec={this.activeitem}></Navitem>
-          <Navitem item="About" tolink="/about"  activec={this.activeitem}></Navitem>
-          <Navitem item="Education" tolink="/education"  activec={this.activeitem}></Navitem>
-          <Navitem item="Skills" tolink="/skills"  activec={this.activeitem}></Navitem>
+          <Navitem item="Quote Generator" tolink="/"  activec={this.activeitem}></Navitem>
+          <Navitem item= {signupDisplay} tolink={loginPath}  activec={this.activeitem}></Navitem>
+          <Navitem item={loginDisplay} tolink={loginPath}  activec={this.activeitem}></Navitem>
+          <Navitem item="Saved Quotes" tolink="/skills"  activec={this.activeitem}></Navitem>
           <Navitem item="Contact" tolink="/contact"  activec={this.activeitem}></Navitem>
-          <Navitem item="Test Space" tolink="/testspace"  activec={this.activeitem}></Navitem>
+          
           </ul>
           </nav>
           )
-    };
+    
+        
+        };
 
+    
     activeitem=(x)=>
     {
       if(this.state.NavItemActive.length>0)

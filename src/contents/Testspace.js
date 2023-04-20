@@ -1,18 +1,12 @@
-import React, { Component } from 'react';
-//importing the picture as "profilepic".
-//import profilepic from '../img/inspirobot.jpg';
-import ReactTypingEffect from 'react-typing-effect';
-import Social from '../components/Social';
+export default function Logoff() {
+  sessionStorage.removeItem("auth")
+  console.log("Removing Authentication")
 
-class TestSpace extends Component {
-  render() {
-    return (
-      //<img src={profilepic} className="profilepic"></img>
-      <div className="condiv home">
-        <ReactTypingEffect className="typingeffect" text={['My text goes here','And here’s another line of text…']} speed={100} eraseDelay={700}/>
-        <Social />
+  return (
+    <>
+      <div >
+        <h1>Logged off now!</h1>
       </div>
-    )
-  }
+    </>
+  );
 }
-export default TestSpace
