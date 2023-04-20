@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 //importing the picture as "profilepic".
+import { Redirect } from 'react-router-dom';
 
 import {useQuery} from 'react-query'
 import axios from 'axios'
@@ -24,13 +25,18 @@ class MyToDoList extends React.Component {
  }
 
   render() {
-    
+    const authUser = sessionStorage.getItem('auth');
+    if (!authUser) {
+        console.log("Not logged in!")
+        // not logged in so redirect to login page with the return url
+        return <Redirect to="/education" />
+    }
 
     return (
     
     
     <div className="App-header">
-      <h1>Company Quote Generatoe</h1>
+      <h1>Company Quote Generator</h1>
       <TodoList items={this.state.items} />
       <form onSubmit={this.valSubmit}>
        <label htmlFor="new-todo">
